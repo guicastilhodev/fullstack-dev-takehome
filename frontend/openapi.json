@@ -128,87 +128,12 @@ paths:
       tags:
       - Auth
     parameters: []
-  /logs/:
-    get:
-      operationId: logs_list
-      summary: List integration logs
-      description: Returns a list of integration logs. Sales users see their own logs;
-        admins see all logs.
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IntegrationLog'
-      tags:
-      - Logs
-    parameters: []
-  /logs/by_action/:
-    get:
-      operationId: logs_by_action
-      summary: Get logs by action type
-      description: Returns all logs filtered by action type (ERP, CRM, STATUS, etc.).
-      parameters:
-      - name: action
-        in: query
-        description: Action type
-        type: string
-        enum:
-        - ERP
-        - CRM
-        - STATUS
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IntegrationLog'
-      tags:
-      - Logs
-    parameters: []
-  /logs/by_quote/:
-    get:
-      operationId: logs_by_quote
-      summary: Get logs by quote ID
-      description: Returns all logs associated with a specific quote.
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/IntegrationLog'
-      tags:
-      - Logs
-    parameters: []
-  /logs/{id}/:
-    get:
-      operationId: logs_read
-      summary: Retrieve a log entry
-      description: Retrieves the details of a specific log entry by its ID.
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/IntegrationLog'
-      tags:
-      - Logs
-    parameters:
-    - name: id
-      in: path
-      required: true
-      type: string
   /quotes/:
     get:
       operationId: quotes_list
-      summary: List quotes
-      description: Returns a list of quotes. Sales users see their own quotes; admins
-        see all quotes.
+      summary: List all quotes
+      description: Returns a list of all quotes submitted by the user (or all quotes
+        if admin).
       parameters: []
       responses:
         '200':
@@ -217,54 +142,23 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Quote'
-      consumes:
-      - multipart/form-data
-      - application/x-www-form-urlencoded
       tags:
       - Quotes
     post:
       operationId: quotes_create
       summary: Submit a new quote
-      description: Submits a new quote for review. The user submitting the request
-        will be marked as the owner.
+      description: Submits a new quote for review. Returns the created quote object.
       parameters:
-      - name: opportunity_id
-        in: formData
+      - name: data
+        in: body
         required: true
-        type: string
-        maxLength: 100
-        minLength: 1
-      - name: customer_name
-        in: formData
-        required: true
-        type: string
-        maxLength: 255
-        minLength: 1
-      - name: customer_email
-        in: formData
-        required: true
-        type: string
-        format: email
-        maxLength: 254
-        minLength: 1
-      - name: customer_company
-        in: formData
-        required: false
-        type: string
-        maxLength: 255
-      - name: supporting_document
-        in: formData
-        required: false
-        type: file
-        x-nullable: true
+        schema:
+          $ref: '#/definitions/Quote'
       responses:
         '201':
           description: ''
           schema:
             $ref: '#/definitions/Quote'
-      consumes:
-      - multipart/form-data
-      - application/x-www-form-urlencoded
       tags:
       - Quotes
     parameters: []
@@ -272,16 +166,13 @@ paths:
     get:
       operationId: quotes_read
       summary: Retrieve a quote
-      description: Retrieves the details of a specific quote by its ID.
+      description: Retrieves the details of a specific quote by ID.
       parameters: []
       responses:
         '200':
           description: ''
           schema:
             $ref: '#/definitions/Quote'
-      consumes:
-      - multipart/form-data
-      - application/x-www-form-urlencoded
       tags:
       - Quotes
     parameters:
@@ -292,10 +183,9 @@ paths:
   /quotes/{id}/set_status/:
     post:
       operationId: quotes_set_status
-      summary: Set quote status (Admin only)
-      description: Changes the status of a quote. This action is restricted to admin
-        users. Valid statuses are 'Approved' and 'Rejected'. For conversions, other
-        conditions apply.
+      summary: Set quote status
+      description: 'Change the status of a quote. Only admins can perform this action.
+        Status must be one of: Approved, Rejected, Converted, Converted to Order.'
       parameters:
       - name: data
         in: body
@@ -306,51 +196,15 @@ paths:
           type: object
           properties:
             status:
-              description: New status for the quote. e.g., 'Approved', 'Rejected'
+              description: New status for the quote
               type: string
-              enum:
-              - Pending Review
-              - Approved
-              - Rejected
-              - Converted to Order
       responses:
-        '200':
-          description: Status updated successfully
+        '201':
+          description: ''
           schema:
             $ref: '#/definitions/Quote'
         '400':
-          description: Invalid status or missing requirements for conversion
-        '403':
-          description: Permission denied
-      tags:
-      - Quotes
-    parameters:
-    - name: id
-      in: path
-      required: true
-      type: string
-  /quotes/{id}/upload_file/:
-    post:
-      operationId: quotes_upload_file
-      summary: Upload a supporting document
-      description: Uploads a file as a supporting document for an existing quote.
-        This can be done by the quote owner or an admin.
-      parameters:
-      - name: supporting_document
-        in: formData
-        required: false
-        type: file
-        x-nullable: true
-      responses:
-        '200':
-          description: File uploaded successfully
-          schema:
-            $ref: '#/definitions/Quote'
-        '400':
-          description: Bad Request
-      consumes:
-      - multipart/form-data
-      - application/x-www-form-urlencoded
+          description: Invalid status or missing requirements
       tags:
       - Quotes
     parameters:
@@ -379,17 +233,6 @@ paths:
       tags:
       - Auth
     parameters: []
-  /user/:
-    get:
-      operationId: user_list
-      description: ''
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags:
-      - user
-    parameters: []
 definitions:
   Login:
     required:
@@ -407,49 +250,6 @@ definitions:
         type: string
         maxLength: 128
         minLength: 1
-  IntegrationLog:
-    required:
-    - action
-    - status
-    - payload
-    type: object
-    properties:
-      id:
-        title: ID
-        type: integer
-        readOnly: true
-      user:
-        title: User
-        type: string
-        readOnly: true
-      quote:
-        title: Quote
-        type: string
-        readOnly: true
-      action:
-        title: Action
-        type: string
-        enum:
-        - ERP
-        - CRM
-        - STATUS
-      status:
-        title: Status
-        type: string
-        maxLength: 50
-        minLength: 1
-      payload:
-        title: Payload
-        type: object
-      response:
-        title: Response
-        type: object
-        x-nullable: true
-      created_at:
-        title: Created at
-        type: string
-        format: date-time
-        readOnly: true
   Quote:
     required:
     - opportunity_id
