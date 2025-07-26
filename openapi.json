@@ -1,0 +1,306 @@
+swagger: '2.0'
+info:
+  title: Quote Portal API
+  description: API documentation for Quote Portal
+  version: v1
+host: localhost:8000
+schemes:
+- http
+basePath: /api
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /crm/customers/:
+    post:
+      operationId: crm_customers_create
+      description: Simulate CRM customer creation. Accepts customer data as JSON.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - name
+          - email
+          type: object
+          properties:
+            name:
+              description: Customer name
+              type: string
+            email:
+              description: Customer email
+              type: string
+      responses:
+        '200':
+          description: Customer received by CRM mock!
+      tags:
+      - crm
+    parameters: []
+  /crm/customers/list/:
+    get:
+      operationId: crm_customers_list_list
+      description: List mock CRM customers.
+      parameters: []
+      responses:
+        '200':
+          description: List of customers
+      tags:
+      - crm
+    parameters: []
+  /erp/orders/:
+    post:
+      operationId: erp_orders_create
+      description: Simulate ERP order creation. Accepts order data as JSON.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          required:
+          - customer
+          - total
+          - status
+          type: object
+          properties:
+            customer:
+              description: Customer name
+              type: string
+            total:
+              description: Order total
+              type: number
+            status:
+              description: Order status
+              type: string
+      responses:
+        '200':
+          description: Order received by ERP mock!
+      tags:
+      - erp
+    parameters: []
+  /erp/orders/list/:
+    get:
+      operationId: erp_orders_list_list
+      description: List mock ERP orders.
+      parameters: []
+      responses:
+        '200':
+          description: List of orders
+      tags:
+      - erp
+    parameters: []
+  /quotes/:
+    get:
+      operationId: quotes_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    post:
+      operationId: quotes_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quote'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    parameters: []
+  /quotes/{id}/:
+    get:
+      operationId: quotes_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    put:
+      operationId: quotes_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quote'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    patch:
+      operationId: quotes_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quote'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    delete:
+      operationId: quotes_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - quotes
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+  /quotes/{id}/set_status/:
+    post:
+      operationId: quotes_set_status
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Quote'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Quote'
+      tags:
+      - quotes
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+  /register/:
+    post:
+      operationId: register_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UserRegister'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserRegister'
+      tags:
+      - register
+    parameters: []
+definitions:
+  Quote:
+    required:
+    - opportunity_id
+    - customer_name
+    - customer_email
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      opportunity_id:
+        title: Opportunity id
+        type: string
+        maxLength: 100
+        minLength: 1
+      customer_name:
+        title: Customer name
+        type: string
+        maxLength: 255
+        minLength: 1
+      customer_email:
+        title: Customer email
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      customer_company:
+        title: Customer company
+        type: string
+        maxLength: 255
+      supporting_document:
+        title: Supporting document
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      created_at:
+        title: Created at
+        type: string
+        format: date-time
+        readOnly: true
+      updated_at:
+        title: Updated at
+        type: string
+        format: date-time
+        readOnly: true
+      submitted_by:
+        title: Submitted by
+        type: integer
+        readOnly: true
+      status:
+        title: Status
+        type: string
+        enum:
+        - Pending Review
+        - Approved
+        - Rejected
+        - Converted
+        readOnly: true
+  UserRegister:
+    required:
+    - username
+    - password
+    type: object
+    properties:
+      username:
+        title: Username
+        description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          only.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        maxLength: 128
+        minLength: 1
