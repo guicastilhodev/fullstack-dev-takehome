@@ -1,44 +1,53 @@
-# Screenshots and Demo Materials
+# Quote Portal - Full Stack Application
 
-This directory contains demonstration materials for the Quote Portal project.
+This repository contains a complete quote management portal with Django backend, Next.js frontend, and PostgreSQL database.
 
-## Contents
+## 🚀 Quick Start with Docker
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 1. Environment Setup
+
+Create a `.env` file in the project root:
+
+```env
+# PostgreSQL Database
+POSTGRES_DB=quote_portal
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=pgpass
+
+# Django Backend
+SECRET_KEY=django-insecure-v#7ktx05a8uh!&cu)t1ugc$kh$d3%*1+9eyht33%j8l3ps853t
+DEBUG=True
+DB_HOST=postgres_database
+DB_PORT=5432
+DJANGO_SUPERUSER_PASSWORD=admin
+
+# Frontend
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+```
+
+### 2. Run the Application
+
+```bash
+docker-compose up --build
+```
+
+### 3. Access the Services
+
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8000/api/](http://localhost:8000/api/)
+- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+  - Username: `admin`
+  - Password: `admin`
+
+## Demo Materials
+
+### Screenshots and Videos
 
 - `screenshots/` - Application screenshots showing key features
 - `demo.mp4` - Video walkthrough of the complete system
 - `api-demo.json` - Postman collection for API testing
-
-## Demo Scenarios
-
-### 1. User Registration and Login
-
-- New user registration flow
-- Login with session authentication
-- Role-based dashboard access
-
-### 2. Quote Submission (Sales Rep)
-
-- Quote form completion
-- File upload process
-- Quote status tracking
-
-### 3. Quote Review (Admin)
-
-- Admin dashboard overview
-- Quote approval/rejection
-- Quote conversion to order
-
-### 4. System Integration
-
-- CRM integration demonstration
-- ERP order creation
-- Activity logging review
-
-## Usage
-
-Screenshots and video demonstrate:
-
-- Complete user workflows
-- UI/UX design decisions
-- Security and validation features
-- API integration points

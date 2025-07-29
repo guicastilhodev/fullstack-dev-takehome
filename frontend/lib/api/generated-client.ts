@@ -6,8 +6,8 @@ import {
   LogsApi,
   CrmApi,
   ErpApi,
-} from "../../../api-client";
-import { QuotesSetStatusRequestStatusEnum } from "../../../api-client/models";
+} from "../../api-client";
+import { QuotesSetStatusRequestStatusEnum } from "../../api-client/models";
 import apiClient from "../api-client";
 
 const configuration = new Configuration({
@@ -38,7 +38,7 @@ export const logsApi = new LogsApi(configuration);
 export const crmApi = new CrmApi(configuration);
 export const erpApi = new ErpApi(configuration);
 
-export * from "../../../api-client/models";
+export * from "../../api-client/models";
 
 export interface User {
   id: number;
