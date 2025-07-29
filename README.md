@@ -2,6 +2,8 @@
 
 A complete quote submission and review system demonstrating full-stack development capabilities.
 
+Uploading quotes_admin.mp4…
+
 ## 🚀 Quick Start
 
 ### Backend (Django REST API)
@@ -60,6 +62,8 @@ npm run dev
 │   └── README.md      # Frontend documentation
 └── docs/              # Documentation and demos
 ```
+
+https://github.com/user-attachments/assets/bece7766-fc88-4a8d-939f-3f2d0c7254b1
 
 ## 🔧 Tech Stack
 
