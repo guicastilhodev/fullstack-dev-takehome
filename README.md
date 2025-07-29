@@ -114,19 +114,6 @@ The API is fully documented with OpenAPI/Swagger:
 - Input sanitization and validation
 - Admin-only administrative functions
 
-## 🧪 Testing
-
-### Test User Accounts
-
-Create test users via Django admin or registration:
-
-- **Sales Rep**: Any regular user
-- **Admin**: User with `is_staff=True`
-
-### Test Data
-
-The system includes mock CRM/ERP endpoints for testing integrations.
-
 ## 📊 Business Rules
 
 **Quote Conversion:**
@@ -140,32 +127,3 @@ The system includes mock CRM/ERP endpoints for testing integrations.
 ```
 Pending Review → Approved/Rejected → Converted (if approved + document)
 ```
-
-## 📝 Development Notes
-
-**Time Investment:** ~8 hours
-
-- Backend API: 4 hours
-- Frontend UI: 3 hours
-- Integration & Polish: 1 hour
-
-**Key Decisions:**
-
-- Session auth for simplicity and security
-- Local file storage (easily replaceable with S3)
-- Mock integrations to simulate real systems
-- Comprehensive logging for audit trails
-
-## 🎯 Assessment Criteria Coverage
-
-- **Architecture**: Clean separation, RESTful design
-- **Code Quality**: Well-organized, documented, tested
-- **Security**: Authentication, validation, safe file handling
-- **Robustness**: Error handling, validation, logging
-- **Sync Logic**: Clean mock integrations with proper logging
-- **Bonus**: OpenAPI docs, structured project, clear README
-- Upload de arquivos suportado no modelo Quote.
-
----
-
-Se precisar de exemplos de requisições ou mais detalhes, consulte o código ou peça ajuda!
