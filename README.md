@@ -2,7 +2,7 @@
 
 A complete quote submission and review system demonstrating full-stack development capabilities.
 
-Uploading quotes_admin.mp4…
+https://github.com/user-attachments/assets/84564c10-225b-4f25-a304-62cace641adb
 
 ## 🚀 Quick Start
 
